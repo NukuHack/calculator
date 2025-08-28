@@ -1,0 +1,36 @@
+[package]
+name = "calc"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+iced = { version = "0.12", features = ["svg"] }
+num-bigint = "0.4"
+num-traits = "0.2"
+regex = "1.10"
+winapi = { version = "0.3", features = ["objbase", "combaseapi", "shlobj", "shobjidl", "objidl", "winerror"] }
+# for extra windows functionality
+
+[package.metadata.windows]
+icon = "assets/icon.ico"
+
+
+[profile.dev]
+opt-level = 1       # Light optimizations
+incremental = true  # Faster recompiles
+codegen-units = 16   # Parallel compilation
+
+[profile.dev.package."*"]
+opt-level = 1       # Apply to dependencies too
+
+
+[profile.release]
+opt-level = 3       # Optimize for speed (not size)
+incremental = false # Disabled (good for release)
+codegen-units = 4   # Balance compile time/optimization
+lto = true          # Link-time optimization (good)
+panic = "abort"     # Reduces binary size (good)
+strip = true        # Removes debug symbols (good)
+
+[profile.release.package."*"]
+opt-level = 3       # Apply to dependencies too
